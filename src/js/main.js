@@ -8,8 +8,6 @@ var MenuScene = require('./menu_scene');
 
 //  The Google WebFont Loader will look for this object, so create it before loading the script.
 
-WebFont.load(wfconfig);
-
 
 var BootScene = {
   preload: function () {
@@ -76,30 +74,30 @@ var wfconfig = {
  
     google: {
         families: ['Sniglet']
-    },
-
-    init: function() {  
-      var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game');
-
-      game.state.add('boot', BootScene);
-      game.state.add('preloader', PreloaderScene);
-      game.state.add('play',PlayScene);
-      game.state.add('gameOver', GameOver);
-      game.state.add('menu', MenuScene);
     }
- 
 };
  
+function init () {
+
+   var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game');
+
+      this.game.state.add('boot', BootScene);
+      this.game.state.add('preloader', PreloaderScene);
+      this.game.state.add('play',PlayScene);
+      this.game.state.add('gameOver', GameOver);
+      this.game.state.add('menu', MenuScene);
+      
+
+ };
 //TODO 3.2 Cargar Google font cuando la página esté cargada con wfconfig.
 //TODO 3.3 La creación del juego y la asignación de los states se hará en el método init().
 
 window.onload = function () {
-      
+      console.log("Holi");
       //var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game');
-//TODO 1.2 Añadir los states 'boot' BootScene, 'menu' MenuScene, 'preloader' PreloaderScene, 'play' PlayScene, 'gameOver' GameOver.
-      
-  
-//TODO 1.3 iniciar el state 'boot'. 
-  this.game.state.start('boot');
+      //TODO 1.2 Añadir los states 'boot' BootScene, 'menu' MenuScene, 'preloader' PreloaderScene, 'play' PlayScene, 'gameOver' GameOver.
+     WebFont.load(wfconfig); 
+     //TODO 1.3 iniciar el state 'boot'. 
+      this.game.state.start('boot');
     
 };

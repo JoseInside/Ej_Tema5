@@ -189,11 +189,13 @@ var PlayScene = {
     },
     
     //TODO 9 destruir los recursos tilemap, tiles y logo.
-    /*
-    cache.removeImage('tilemap'),
-    cache.removeImage('tiles'),
-    cache.removeImage('logo'),
-    */
+    //***
+    
 };
 
+    /*
+    this.game.cache.removeImage("tilemap", BaseTexture.destroy);
+    this.game.cache.removeImage('tiles', BaseTexture.destroy);
+    this.game.cache.removeImage('logo', BaseTexture.destroy);
+    */
 module.exports = PlayScene;
