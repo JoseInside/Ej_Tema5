@@ -8,7 +8,7 @@ var MenuScene = require('./menu_scene');
 
 //  The Google WebFont Loader will look for this object, so create it before loading the script.
 
-
+WebFont.load(wfconfig);
 
 
 var BootScene = {
@@ -43,7 +43,7 @@ var PreloaderScene = {
       //***
       this.game.load.tilemap('tilemap', 'images/map.json', null, Phaser.Tilemap.TILED_JSON);
       this.game.load.image('tiles', 'images/simples_pimples.png', null, Phaser.Tilemap.TILED_JSON);
-      this.game.load.atlasJSONHash('atlasJSONHash', 'images/rush_spritesheet.png', 'images/rush_spritesheet.json', Phaser.Tilemap.TILED_JSON);
+      this.game.load.atlasJSONHash('rush', 'images/rush_spritesheet.png', 'images/rush_spritesheet.json', Phaser.Tilemap.TILED_JSON);
       //TODO 2.2a Escuchar el evento onLoadComplete con el método loadComplete que el state 'play'
       //***
       this.addEventListener('onLoadComplete', loadComplete);
@@ -78,26 +78,26 @@ var wfconfig = {
         families: ['Sniglet']
     },
 
-    init () {  
+    init: function() {  
       var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game');
 
-      BootScene = function (game){};
-      PlayScene = function (game){};
-      MenuScene = function (game){};
-      PreloaderScene = function (game){};
-      GameOver = function (game){};
+      game.state.add('boot', BootScene);
+      game.state.add('preloader', PreloaderScene);
+      game.state.add('play',PlayScene);
+      game.state.add('gameOver', GameOver);
+      game.state.add('menu', MenuScene);
     }
  
 };
  
 //TODO 3.2 Cargar Google font cuando la página esté cargada con wfconfig.
 //TODO 3.3 La creación del juego y la asignación de los states se hará en el método init().
-WebFont.load(wfconfig);
 
 window.onload = function () {
-
+      
+      //var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game');
 //TODO 1.2 Añadir los states 'boot' BootScene, 'menu' MenuScene, 'preloader' PreloaderScene, 'play' PlayScene, 'gameOver' GameOver.
-  
+      
   
 //TODO 1.3 iniciar el state 'boot'. 
   this.game.state.start('boot');
