@@ -13,17 +13,17 @@ var PlayScene = {
     _jumpHight: 150, //altura máxima del salto.
     _playerState: PlayerState.STOP, //estado del player
     _direction: Direction.NONE,  //dirección inicial del player. NONE es ninguna dirección.
-    
+
     //Método constructor...
   create: function () {
       //Creamos al player con un sprite por defecto.
       //TODO 5 Creamos a rush 'rush'  con el sprite por defecto en el 10, 10 con la animación por defecto 'rush_idle01'
       //***
-      _rush = game.add.sprite(10, 10, 'rush_idle01');
+      this._rush = this.game.add.sprite(10, 10, 'rush');
 
       //TODO 4: Cargar el tilemap 'tilemap' y asignarle al tileset 'patrones' la imagen de sprites 'tiles'
       //***
-      var map = this.game.add.tilemap('tilemap');
+      this.map = this.game.add.tilemap('tilemap');
       this.map.addTilesetImage('tiles','patrones');
       //Creacion de las layers
       this.backgroundLayer = this.map.createLayer('BackgroundLayer');
