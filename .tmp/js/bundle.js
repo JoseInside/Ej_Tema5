@@ -2,30 +2,43 @@
 var GameOver = {
     create: function () {
         console.log("Game Over");
+        
+        
         var button = this.game.add.button(400, 300, 
                                           'button', 
-                                          this.actionOnClick, 
+                                          this.restart, 
                                           this, 2, 1, 0);
         button.anchor.set(0.5);
+        
         var goText = this.game.add.text(400, 100, "GameOver");
         var text = this.game.add.text(0, 0, "Reset Game");
-        var rText = this.game.add.text (400, 200, "Return Main Menu");
+        var rText = this.game.add.text (0, 0, "Return Main Menu");
+        goText.font ='Sniglet';
+        text.font = 'Sniglet';
+        rText.font = 'Sniglet';
         text.anchor.set(0.5);
         goText.anchor.set(0.5);
         rText.anchor.set(0.5);
         button.addChild(text);
         
         //TODO 8 crear un boton con el texto 'Return Main Menu' que nos devuelva al menu del juego.
-         var button2 = this.game.add.button(400, 50, 
-                                          'button2', 
-                                          this.actionOnClick, 
+         var button2 = this.game.add.button(400, 200, 
+                                          'button', 
+                                          this.returnMenu, 
                                           this, 2, 1, 0);
+        button2.anchor.set(0.5);
+        button2.addChild(rText);
     },
     
     //TODO 7 declarar el callback del boton.
-    callback: function (create) {
-        callback();
+    returnMenu: function() {
+      this.game.state.start('menu');
+    },
+
+    restart: function () {
+        this.game.state.start('preloader');      
     }
+    
 };
 
 module.exports = GameOver;
@@ -62,9 +75,7 @@ var PreloaderScene = {
     this.loadingBar.anchor.setTo(0, 0.5); 
     this.game.load.setPreloadSprite(this.loadingBar);
     this.game.stage.backgroundColor = "#000000";
-    
-    
-    
+  
       this.load.onLoadStart.add(this.loadStart, this);
       //TODO 2.1 Cargar el tilemap images/map.json con el nombre de la cache 'tilemap'.
       //la imagen 'images/simples_pimples.png' con el nombre de la cache 'tiles' y
@@ -73,13 +84,13 @@ var PreloaderScene = {
       //***MOD 1a Y 3a
       this.game.load.tilemap('tilemap', 'images/map.json', null, Phaser.Tilemap.TILED_JSON);
       this.game.load.image('tiles','images/simples_pimples.png');
-      this.game.load.atlasJSONHash(/*'animation',*/'images/rush_spritesheet.png','images/rush_spritesheet.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
+      this.game.load.atlasJSONHash('rush_idle01','images/rush_spritesheet.png','images/rush_spritesheet.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
 
 
       //TODO 2.2a Escuchar el evento onLoadComplete con el método loadComplete que el state 'play'
       //***
      // game.addEventListener('onLoadComplete', this.loadComplete);
-     this.game.load.onLoadComplete.add(loadComplete,this);
+     this.game.load.onLoadComplete.add(this.loadComplete,this);
   
   },
 
@@ -92,15 +103,7 @@ var PreloaderScene = {
     
      //TODO 2.2b function loadComplete()
     loadComplete: function () {
-        if(this._ready != true && this.onCreateCallback != null)
-        {
-          this._ready = true; // le decimos que se cree
-          this.onCreateCallback();
-
-        }else {
-          this._ready = true; 
-        }
-        
+        this._ready = true;       
     },
     
     update: function(){
@@ -142,14 +145,20 @@ window.onload = function () {
       //var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game');
       //TODO 1.2 Añadir los states 'boot' BootScene, 'menu' MenuScene, 'preloader' PreloaderScene, 'play' PlayScene, 'gameOver' GameOver.
        WebFont.load(wfconfig); 
-     //TODO 1.3 iniciar el state 'boot'. 
-     //Para iniciar el boot
-      this.game.state.start('boot');
-    
+     //TODO 1.3 iniciar el state 'boot'.  
+     //this.game.state.start('boot');
+         
 };
 
 },{"./gameover_scene":1,"./menu_scene":3,"./play_scene":4}],3:[function(require,module,exports){
 var MenuScene = {
+
+    preload : function()
+    {
+      console.log("preload de menu scene");
+      this.game.stage.backgroundColor = "#000000";
+      
+    },
     create: function () {
         
         var logo = this.game.add.sprite(this.game.world.centerX, 
@@ -166,6 +175,7 @@ var MenuScene = {
         textStart.font = 'Sniglet';
         textStart.anchor.set(0.5);
         buttonStart.addChild(textStart);
+
     },
     
     actionOnClick: function(){
@@ -203,13 +213,13 @@ var PlayScene = {
       
       this.game.load.tilemap('tilemap', 'images/map.json', null, Phaser.Tilemap.TILED_JSON);
       this.game.load.image('tiles', 'images/simples_pimples.png', null, Phaser.Tilemap.TILED_JSON);
-      this.game.load.atlasJSONHash('images/rush_spritesheet.json', 'images/rush_spritesheet.png', null, Phaser.Tilemap.TILED_JSON);
+      this.game.load.atlasJSONHash('rush_idle01','images/rush_spritesheet.png','images/rush_spritesheet.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
 
-      /*
+      
       this.map = this.game.add.tilemap('tilemap');
 
       this.map.addTilesetImage('patrones','tiles');
-      */
+      
       //Creacion de las layers
       this.backgroundLayer = this.map.createLayer('BackgroundLayer');
       this.groundLayer = this.map.createLayer('GroundLayer');
@@ -224,7 +234,7 @@ var PlayScene = {
       this.backgroundLayer.setScale(3,3);
       this.death.setScale(3,3);
       
-      //this.groundLayer.resizeWorld(); //resize world and adjust to the screen
+      this.groundLayer.resizeWorld(); //resize world and adjust to the screen
       
       //nombre de la animación, frames, framerate, isloop
       this._rush.animations.add('run',
@@ -375,14 +385,18 @@ var PlayScene = {
     
     //TODO 9 destruir los recursos tilemap, tiles y logo.
     //***
+    shutdown: function() {
+      console.log("shutdown");
+      this.cache.removeImage('tilemap');
+      this.cache.removeImage('tiles');
+      this.game.world.setBounds(0,0,800,600);
+    }
     
 };
 
-    /*
-    this.game.cache.removeImage("tilemap", BaseTexture.destroy);
-    this.game.cache.removeImage('tiles', BaseTexture.destroy);
-    this.game.cache.removeImage('logo', BaseTexture.destroy);
-    */
+    
+    
+    
 module.exports = PlayScene;
 
 },{}]},{},[2]);

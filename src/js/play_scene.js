@@ -26,13 +26,13 @@ var PlayScene = {
       
       this.game.load.tilemap('tilemap', 'images/map.json', null, Phaser.Tilemap.TILED_JSON);
       this.game.load.image('tiles', 'images/simples_pimples.png', null, Phaser.Tilemap.TILED_JSON);
-      this.game.load.atlasJSONHash('images/rush_spritesheet.json', 'images/rush_spritesheet.png', null, Phaser.Tilemap.TILED_JSON);
+      this.game.load.atlasJSONHash('rush_idle01','images/rush_spritesheet.png','images/rush_spritesheet.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
 
-      /*
+      
       this.map = this.game.add.tilemap('tilemap');
 
       this.map.addTilesetImage('patrones','tiles');
-      */
+      
       //Creacion de las layers
       this.backgroundLayer = this.map.createLayer('BackgroundLayer');
       this.groundLayer = this.map.createLayer('GroundLayer');
@@ -47,7 +47,7 @@ var PlayScene = {
       this.backgroundLayer.setScale(3,3);
       this.death.setScale(3,3);
       
-      //this.groundLayer.resizeWorld(); //resize world and adjust to the screen
+      this.groundLayer.resizeWorld(); //resize world and adjust to the screen
       
       //nombre de la animación, frames, framerate, isloop
       this._rush.animations.add('run',
@@ -198,12 +198,16 @@ var PlayScene = {
     
     //TODO 9 destruir los recursos tilemap, tiles y logo.
     //***
+    shutdown: function() {
+      console.log("shutdown");
+      this.cache.removeImage('tilemap');
+      this.cache.removeImage('tiles');
+      this.game.world.setBounds(0,0,800,600);
+    }
     
 };
 
-    /*
-    this.game.cache.removeImage("tilemap", BaseTexture.destroy);
-    this.game.cache.removeImage('tiles', BaseTexture.destroy);
-    this.game.cache.removeImage('logo', BaseTexture.destroy);
-    */
+    
+    
+    
 module.exports = PlayScene;

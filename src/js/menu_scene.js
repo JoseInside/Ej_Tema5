@@ -1,4 +1,11 @@
 var MenuScene = {
+
+    preload : function()
+    {
+      console.log("preload de menu scene");
+      this.game.stage.backgroundColor = "#000000";
+      
+    },
     create: function () {
         
         var logo = this.game.add.sprite(this.game.world.centerX, 
@@ -15,6 +22,7 @@ var MenuScene = {
         textStart.font = 'Sniglet';
         textStart.anchor.set(0.5);
         buttonStart.addChild(textStart);
+
     },
     
     actionOnClick: function(){

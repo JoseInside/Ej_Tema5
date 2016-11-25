@@ -30,9 +30,7 @@ var PreloaderScene = {
     this.loadingBar.anchor.setTo(0, 0.5); 
     this.game.load.setPreloadSprite(this.loadingBar);
     this.game.stage.backgroundColor = "#000000";
-    
-    
-    
+  
       this.load.onLoadStart.add(this.loadStart, this);
       //TODO 2.1 Cargar el tilemap images/map.json con el nombre de la cache 'tilemap'.
       //la imagen 'images/simples_pimples.png' con el nombre de la cache 'tiles' y
@@ -41,13 +39,13 @@ var PreloaderScene = {
       //***MOD 1a Y 3a
       this.game.load.tilemap('tilemap', 'images/map.json', null, Phaser.Tilemap.TILED_JSON);
       this.game.load.image('tiles','images/simples_pimples.png');
-      this.game.load.atlasJSONHash(/*'animation',*/'images/rush_spritesheet.png','images/rush_spritesheet.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
+      this.game.load.atlasJSONHash('rush_idle01','images/rush_spritesheet.png','images/rush_spritesheet.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
 
 
       //TODO 2.2a Escuchar el evento onLoadComplete con el método loadComplete que el state 'play'
       //***
      // game.addEventListener('onLoadComplete', this.loadComplete);
-     this.game.load.onLoadComplete.add(loadComplete,this);
+     this.game.load.onLoadComplete.add(this.loadComplete,this);
   
   },
 
@@ -60,15 +58,7 @@ var PreloaderScene = {
     
      //TODO 2.2b function loadComplete()
     loadComplete: function () {
-        if(this._ready != true && this.onCreateCallback != null)
-        {
-          this._ready = true; // le decimos que se cree
-          this.onCreateCallback();
-
-        }else {
-          this._ready = true; 
-        }
-        
+        this._ready = true;       
     },
     
     update: function(){
@@ -110,8 +100,7 @@ window.onload = function () {
       //var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game');
       //TODO 1.2 Añadir los states 'boot' BootScene, 'menu' MenuScene, 'preloader' PreloaderScene, 'play' PlayScene, 'gameOver' GameOver.
        WebFont.load(wfconfig); 
-     //TODO 1.3 iniciar el state 'boot'. 
-     //Para iniciar el boot
-      this.game.state.start('boot');
-    
+     //TODO 1.3 iniciar el state 'boot'.  
+     //this.game.state.start('boot');
+         
 };
