@@ -5,6 +5,7 @@
 var PlayScene = require('./play_scene');
 var GameOver = require('./gameover_scene');
 var MenuScene = require('./menu_scene');
+//var fondoJuego= require('./play_scene');
 
 //  The Google WebFont Loader will look for this object, so create it before loading the script.
 
@@ -15,11 +16,14 @@ var BootScene = {
     this.game.load.image('preloader_bar', 'images/preloader_bar.png');
     this.game.load.spritesheet('button', 'images/buttons.png', 168, 70);
     this.game.load.image('logo', 'images/phaser.png');
+    //this.game.load.image('fondo', 'images/fondo.png');
   },
 
   create: function () {
     //this.game.state.start('preloader');
       this.game.state.start('menu');
+      //this.fondoJuego = this.game.add.sprite( 0, 0, 370, 550, 'fondo'); 
+     
   }
 };
 
@@ -30,7 +34,8 @@ var PreloaderScene = {
     this.loadingBar.anchor.setTo(0, 0.5); 
     this.game.load.setPreloadSprite(this.loadingBar);
     this.game.stage.backgroundColor = "#000000";
-  
+    
+
       this.load.onLoadStart.add(this.loadStart, this);
       //TODO 2.1 Cargar el tilemap images/map.json con el nombre de la cache 'tilemap'.
       //la imagen 'images/simples_pimples.png' con el nombre de la cache 'tiles' y
